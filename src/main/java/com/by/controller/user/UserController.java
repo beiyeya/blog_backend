@@ -3,7 +3,8 @@
 import org.springframework.web.bind.annotation.GetMapping;
  import org.springframework.web.bind.annotation.PostMapping;
  import org.springframework.web.bind.annotation.RequestBody;
- import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
  import java.util.Collections;
  import java.util.HashMap;
@@ -13,9 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
  @RestController
+ @RequestMapping("/api")
  public class UserController {
 
-     @PostMapping("/api/login/account")
+     @PostMapping("/login/account")
      public Map<String, String> login(@RequestBody Map<String, String> body) {
          String username = body.get("username");
          String password = body.get("password");
@@ -31,8 +33,9 @@ import javax.servlet.http.HttpSession;
              }});
          }
      }
+     
 
-     @GetMapping("/api/currentUser")
+     @GetMapping("/currentUser")
      public Map<String, Object> currentUser() {
          return Collections.unmodifiableMap(new HashMap<String, Object>() {{
              put("success", true);
@@ -89,8 +92,13 @@ import javax.servlet.http.HttpSession;
              }}));
          }});
      }
-    
-     @PostMapping("/api/login/outLogin")
+     @GetMapping("/ai")
+     public Map<String, String> ai() {
+    	 return Collections.unmodifiableMap(new HashMap<String, String>() {{
+             put("status", "ok");
+         }});
+     }
+     @PostMapping("/login/outLogin")
      public String outLogin(HttpServletRequest request) {
          // 获取当前请求的会话
          HttpSession session = request.getSession(false);
