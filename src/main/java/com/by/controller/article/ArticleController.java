@@ -2,8 +2,14 @@ package com.by.controller.article;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -17,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RestController
+@RequestMapping("/api")
 public class ArticleController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
@@ -29,8 +36,8 @@ public class ArticleController {
 
     private final String remoteBaseUrl = "http://120.26.36.42/ArticleList/";
 
-    @GetMapping("/api/posts")
-    public List<Map<String, Object>> getPosts(@RequestParam Map<String, String> query) {
+    @GetMapping("/article/query")
+    public List<Map<String, Object>> getArticle(@RequestParam Map<String, String> query) {
         System.out.println("获取文章列表:查询参数：" + query);
 
         try {
@@ -106,4 +113,22 @@ public class ArticleController {
         }
     }
 
+    @PutMapping("/article/updateArticle/{id}")
+    public ResponseEntity<String> updateArticle(@PathVariable String id, @RequestBody Map<String, Object> values) {
+        try {
+            // 打印接收到的文章数据
+            System.out.println("获取修改的文章数据: 查询参数：" + values);
+
+            // 调用服务层方法更新文章
+            articleService.updateArticle(id, remoteBaseUrl, values);
+
+            // 返回成功响应
+            return ResponseEntity.ok("编辑成功");
+        } catch (Exception e) {
+            // 打印错误信息
+            System.out.println("编辑文章失败: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("编辑失败，请稍后再试。");
+        }
+    }
+    
 }

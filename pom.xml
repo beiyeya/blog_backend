@@ -30,11 +30,6 @@
 		    <artifactId>commonmark</artifactId>
 		    <version>0.18.1</version>
 		</dependency>
-		<dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-api</artifactId>
-		    <version>2.0.9</version> <!-- 请根据需要选择合适的版本 -->
-		</dependency>
     </dependencies>
     <build>
         <plugins>
